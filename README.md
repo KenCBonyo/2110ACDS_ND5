@@ -11,10 +11,10 @@ The project has been developed by the following individuals:
 - Rony
 
 #### Relevant Links
-1. Project's [main Jupyter Notebook][1] accessed on [nbviewer.org][2]
+1. Project's [main Jupyter Notebook][1] accessed on [Jupyter's online Notebook viewer][2]
 
 [1]: https://nbviewer.org/github/teddywaweru/2110ACDS_ND5/blob/teddy_waweru_branch/2110ACDS_ND5_v0.3.ipynb#Honour-Code
-[2]: nbviewer.org
+[2]: https://nbviewer.org
 
 2. Project's API [website link][3]
 
