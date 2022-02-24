@@ -22,7 +22,7 @@ import pickle
 import json
 import numpy as np
 from model import load_model, make_prediction
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, request
 
 # Application definition
 app = Flask(__name__)
@@ -47,6 +47,14 @@ print ('-'*40)
 # http:{Host-machine-ip-address}:5000/api_v0.1
 @app.route('/api_v0.1', methods=['POST'])
 def model_prediction():
+
+    #Collect data from the webAPP form & store them in relevant variables.
+    city = request.form.get('city')
+    rainfall = request.form.get('rainfall')
+    humidity = request.form.get('humidity')
+    temperature = request.form.get('temperature')
+
+
     # We retrieve the data payload of the POST request
     data = request.get_json(force=True)
     # We then preprocess our data, and use our pretrained model to make a
@@ -54,7 +62,16 @@ def model_prediction():
     output = make_prediction(data, static_model)
     # We finally package this prediction as a JSON object to deliver a valid
     # response with our API.
+
+    result = 'Result value to be displayed.'
+    
+    return render_template('index.html', result = result)
     return jsonify(output)
+
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 # Configure Server Startup properties.
 # Note:
@@ -62,4 +79,4 @@ def model_prediction():
 # This will allow Flask to automatically restart itself everytime you
 # update your API code.
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='127.0.0.1', port=5000, debug=False)
