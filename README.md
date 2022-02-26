@@ -6,8 +6,8 @@
 The project has been developed by the following individuals:
 - Teddy Waweru - Team Lead
 - Stella Njuki
-- MacMunashe
-- Ogaga
+- McMunashe Munemo
+- Ogaga Oghenekohwo
 - Rony
 
 #### Relevant Links
