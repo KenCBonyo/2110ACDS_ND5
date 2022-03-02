@@ -59,6 +59,64 @@ def _preprocess_data(data):
 
     # ----------- Replace this code with your own preprocessing steps --------
     predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
+
+    #Drop the Unnamed:0 column
+    predict_vector = feature_vector_df.drop(['Unnamed: 0'], axis=1)
+
+    #Replace null values in Valencia_pressure with Madrid_pressure
+    predict_vector.loc[predict_vector['Valencia_pressure'].isna(),'Valencia_pressure'] = \
+    predict_vector.loc[predict_vector['Valencia_pressure'].isna(), 'Madrid_pressure']
+
+    #Convert time to numpy datetime object
+    predict_vector['time'] = pd.to_datetime(predict_vector['time'], format='%Y-%m-%d %H:%M:%S')
+
+    #Split time column to hour, day, month & year
+    predict_vector['year'] = pd.DatetimeIndex(predict_vector['time']).year
+    predict_vector['month'] = pd.DatetimeIndex(predict_vector['time']).month
+    predict_vector['day'] = pd.DatetimeIndex(predict_vector['time']).day
+    predict_vector['hour'] = pd.DatetimeIndex(predict_vector['time']).hour
+
+    #Drop the time column
+    predict_vector = predict_vector.drop(columns= 'time')
+
+    # Re-organize the column features to have date features at the start
+    col_titles = ['year'] + ['month'] + ['day'] + ['hour'] + \
+        [col for col in predict_vector.columns \
+        if col not in ['year', 'month', 'day', 'hour','load_shortfall_3h']] + \
+            ['load_shortfall_3h']
+
+    #Create dummy variables (winter, summer, autumn, spring) based on
+    # weather seasons using the month column
+    train_copy_df.loc[train_copy_df['month'].isin([1,2,3]),['winter','spring','summer','autumn']] = [1,0,0,0]
+    train_copy_df.loc[train_copy_df['month'].isin([4,5,6]),['winter','spring','summer','autumn']] = [0,1,0,0]
+    train_copy_df.loc[train_copy_df['month'].isin([7,8,9]),['winter','spring','summer','autumn']] = [0,0,1,0]
+    train_copy_df.loc[train_copy_df['month'].isin([10,11,12]),['winter','spring','summer','autumn']] = [0,0,0,1]
+
+    #change variable of season features from float to int
+    train_copy_df = train_copy_df.astype(
+        {
+            'winter': int, 'summer': int, 'spring': int, 'autumn': int
+        }
+    )
+
+    #Create dummy variables for  Valencia_wind_deg & Seville_pressure
+    dummies_df = pd.get_dummies(train_copy_df[['Valencia_wind_deg','Seville_pressure']], drop_first = True)
+
+    train_copy_df = pd.concat([train_copy_df, dummies_df], axis='columns')
+
+    #Drop original Valencia_wind_deg & Seville_pressure
+    train_copy_df = train_copy_df.drop(['Valencia_wind_deg', 'Seville_pressure' ], axis='columns')
+
+    # Re-organize the columns to have load_shortfall_3h at the end
+    column_titles = [col for col in train_copy_df.columns if col!= 'load_shortfall_3h'] + ['load_shortfall_3h']
+    train_copy_df = train_copy_df.reindex(columns = column_titles)
+
+
+    
+    
+
+
+    
     # ------------------------------------------------------------------------
 
     return predict_vector

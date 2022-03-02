@@ -3,3 +3,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Some .pkl sizes may be too large to commit.
+assets/trained-models/rfr_model_25_300.pkl
