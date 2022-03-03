@@ -112,10 +112,24 @@ def _preprocess_data(data):
     predict_vector = predict_vector.drop(['Valencia_wind_deg', 'Seville_pressure' ], axis='columns')
 
     # Re-organize the columns to have load_shortfall_3h at the end
-    column_titles = [col for col in predict_vector.columns if col!= 'load_shortfall_3h'] + ['load_shortfall_3h']
+    column_titles = [col for col in predict_vector.columns if col!= 'load_shortfall_3h']
     predict_vector = predict_vector.reindex(columns = column_titles)
-    # predict_vector['load_shortfall_3h'] = 0 
-    print(predict_vector['load_shortfall_3h'])
+    # predict_vector['load_shortfall_3h'] = 2
+    # print(predict_vector['load_shortfall_3h'])
+    print(predict_vector.shape)
+
+
+    predict_vector = predict_vector[['year', 'month', 'day', 'hour' ,'Madrid_wind_speed', 'Bilbao_rain_1h',
+ 'Valencia_wind_speed', 'Seville_humidity' ,'Madrid_humidity',
+ 'Bilbao_clouds_all', 'Bilbao_wind_speed', 'Seville_clouds_all',
+ 'Bilbao_wind_deg', 'Barcelona_wind_speed', 'Barcelona_wind_deg',
+ 'Madrid_clouds_all' ,'Seville_wind_speed' ,'Barcelona_rain_1h',
+ 'Barcelona_weather_id', 'Seville_weather_id', 'Valencia_pressure',
+ 'Seville_temp_max' ,'Madrid_pressure' ,'Valencia_temp_max', 'Valencia_temp',
+ 'Bilbao_weather_id' ,'Seville_temp' ,'Valencia_temp_min',
+ 'Barcelona_temp_max' ,'Madrid_temp_max' ,'Barcelona_temp' ,'Bilbao_temp_min',
+ 'Bilbao_temp' ,'Barcelona_temp_min' ,'Bilbao_temp_max', 'Seville_temp_min',
+ 'Madrid_temp', 'Madrid_temp_min' ,'winter', 'spring' ,'summer', 'autumn']]
 
 
     return predict_vector
