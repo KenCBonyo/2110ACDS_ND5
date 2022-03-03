@@ -30,7 +30,7 @@ app = Flask(__name__)
 # Load our model into memory.
 # Please update this path to reflect your own trained model.
 static_model = load_model(
-    path_to_model='assets/trained-models/load_shortfall_simple_lm_regression.pkl')
+    path_to_model='assets/trained-models/rfr_model_25_300.pkl')
 
 print ('-'*40)
 print ('Model successfully loaded')
@@ -65,7 +65,7 @@ def model_prediction():
 
     result = 'Result value to be displayed.'
     
-    return render_template('index.html', result = result)
+    # return render_template('index.html', result = result)
     return jsonify(output)
 
 

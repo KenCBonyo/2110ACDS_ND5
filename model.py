@@ -49,6 +49,7 @@ def _preprocess_data(data):
     # Load the dictionary as a Pandas DataFrame.
     feature_vector_df = pd.DataFrame.from_dict([feature_vector_dict])
 
+
     # ---------------------------------------------------------------
     # NOTE: You will need to swap the lines below for your own data
     # preprocessing methods.
@@ -58,12 +59,15 @@ def _preprocess_data(data):
     # ---------------------------------------------------------------
 
     # ----------- Replace this code with your own preprocessing steps --------
-    predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
+    # predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
 
     #Drop the Unnamed:0 column
     predict_vector = feature_vector_df.drop(['Unnamed: 0'], axis=1)
 
-    #Replace null values in Valencia_pressure with Madrid_pressure
+    print('---------------------------'*10)
+    # print(predict_vector['Valencia_pressure'])
+
+    # Replace null values in Valencia_pressure with Madrid_pressure
     predict_vector.loc[predict_vector['Valencia_pressure'].isna(),'Valencia_pressure'] = \
     predict_vector.loc[predict_vector['Valencia_pressure'].isna(), 'Madrid_pressure']
 
@@ -87,37 +91,32 @@ def _preprocess_data(data):
 
     #Create dummy variables (winter, summer, autumn, spring) based on
     # weather seasons using the month column
-    train_copy_df.loc[train_copy_df['month'].isin([1,2,3]),['winter','spring','summer','autumn']] = [1,0,0,0]
-    train_copy_df.loc[train_copy_df['month'].isin([4,5,6]),['winter','spring','summer','autumn']] = [0,1,0,0]
-    train_copy_df.loc[train_copy_df['month'].isin([7,8,9]),['winter','spring','summer','autumn']] = [0,0,1,0]
-    train_copy_df.loc[train_copy_df['month'].isin([10,11,12]),['winter','spring','summer','autumn']] = [0,0,0,1]
+    predict_vector.loc[predict_vector['month'].isin([1,2,3]),['winter','spring','summer','autumn']] = [1,0,0,0]
+    predict_vector.loc[predict_vector['month'].isin([4,5,6]),['winter','spring','summer','autumn']] = [0,1,0,0]
+    predict_vector.loc[predict_vector['month'].isin([7,8,9]),['winter','spring','summer','autumn']] = [0,0,1,0]
+    predict_vector.loc[predict_vector['month'].isin([10,11,12]),['winter','spring','summer','autumn']] = [0,0,0,1]
 
     #change variable of season features from float to int
-    train_copy_df = train_copy_df.astype(
+    predict_vector = predict_vector.astype(
         {
             'winter': int, 'summer': int, 'spring': int, 'autumn': int
         }
     )
 
     #Create dummy variables for  Valencia_wind_deg & Seville_pressure
-    dummies_df = pd.get_dummies(train_copy_df[['Valencia_wind_deg','Seville_pressure']], drop_first = True)
+    dummies_df = pd.get_dummies(predict_vector[['Valencia_wind_deg','Seville_pressure']], drop_first = True)
 
-    train_copy_df = pd.concat([train_copy_df, dummies_df], axis='columns')
+    predict_vector = pd.concat([predict_vector, dummies_df], axis='columns')
 
     #Drop original Valencia_wind_deg & Seville_pressure
-    train_copy_df = train_copy_df.drop(['Valencia_wind_deg', 'Seville_pressure' ], axis='columns')
+    predict_vector = predict_vector.drop(['Valencia_wind_deg', 'Seville_pressure' ], axis='columns')
 
     # Re-organize the columns to have load_shortfall_3h at the end
-    column_titles = [col for col in train_copy_df.columns if col!= 'load_shortfall_3h'] + ['load_shortfall_3h']
-    train_copy_df = train_copy_df.reindex(columns = column_titles)
+    column_titles = [col for col in predict_vector.columns if col!= 'load_shortfall_3h'] + ['load_shortfall_3h']
+    predict_vector = predict_vector.reindex(columns = column_titles)
+    # predict_vector['load_shortfall_3h'] = 0 
+    print(predict_vector['load_shortfall_3h'])
 
-
-    
-    
-
-
-    
-    # ------------------------------------------------------------------------
 
     return predict_vector
 
@@ -163,6 +162,8 @@ def make_prediction(data, model):
     # Data preprocessing.
     prep_data = _preprocess_data(data)
     # Perform prediction with model and preprocessed data.
+    print((prep_data.isna().sum()))
     prediction = model.predict(prep_data)
     # Format as list for output standardisation.
     return prediction[0].tolist()
+    # return 300
