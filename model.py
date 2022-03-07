@@ -64,7 +64,7 @@ def _preprocess_data(data):
     #Drop the Unnamed:0 column
     predict_vector = feature_vector_df.drop(['Unnamed: 0'], axis=1)
 
-    print('---------------------------'*10)
+    print('-----'*10)
     # print(predict_vector['Valencia_pressure'])
 
     # Replace null values in Valencia_pressure with Madrid_pressure
@@ -89,6 +89,10 @@ def _preprocess_data(data):
         if col not in ['year', 'month', 'day', 'hour','load_shortfall_3h']] + \
             ['load_shortfall_3h']
 
+    predict_vector['winter'] = ''
+    predict_vector['spring'] = ''
+    predict_vector['summer'] = ''
+    predict_vector['autumn'] = ''
     #Create dummy variables (winter, summer, autumn, spring) based on
     # weather seasons using the month column
     predict_vector.loc[predict_vector['month'].isin([1,2,3]),['winter','spring','summer','autumn']] = [1,0,0,0]
@@ -96,7 +100,7 @@ def _preprocess_data(data):
     predict_vector.loc[predict_vector['month'].isin([7,8,9]),['winter','spring','summer','autumn']] = [0,0,1,0]
     predict_vector.loc[predict_vector['month'].isin([10,11,12]),['winter','spring','summer','autumn']] = [0,0,0,1]
 
-    #change variable of season features from float to int
+    # change variable of season features from float to int
     predict_vector = predict_vector.astype(
         {
             'winter': int, 'summer': int, 'spring': int, 'autumn': int
@@ -176,8 +180,9 @@ def make_prediction(data, model):
     # Data preprocessing.
     prep_data = _preprocess_data(data)
     # Perform prediction with model and preprocessed data.
-    print((prep_data.isna().sum()))
+    # print((prep_data.isna().sum()))
     prediction = model.predict(prep_data)
     # Format as list for output standardisation.
-    return prediction[0].tolist()
+
+    return round(prediction[0].tolist(), 0)
     # return 300
