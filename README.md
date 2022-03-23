@@ -18,6 +18,7 @@ The project has been developed by the following individuals:
 
 2. Project's [Presentation][3]
 
+
 [3]: https://docs.google.com/presentation/d/17wmshfvAtTvDpnP8Lkwga7EfSMM9mzByd5SHRZ1ZTP8/edit?usp=sharing
 
 
