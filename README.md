@@ -16,7 +16,9 @@ The project has been developed by the following individuals:
 [1]: https://nbviewer.org/github/teddywaweru/2110ACDS_ND5/blob/master/2110ACDS_ND5_v0.1.ipynb
 [2]: https://nbviewer.org
 
-2. Project's API [website link][3]
+2. Project's [Presentation][3]
+
+[3]: https://docs.google.com/presentation/d/17wmshfvAtTvDpnP8Lkwga7EfSMM9mzByd5SHRZ1ZTP8/edit?usp=sharing
 
 
 
