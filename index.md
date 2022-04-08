@@ -1,37 +1,40 @@
-## Welcome to GitHub Pages
+## Advanced Regression Sprint at Explore Data Science Academy
 
-You can use the [editor on GitHub](https://github.com/teddywaweru/2110ACDS_ND5/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### Development Team
+1. Teddy Waweru
+2. McMunashe Munemo
+3. Stella Njuki
+4. Ogaga Oghenekohwo
+5. Mayron Anyanga
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Introduction
+During this project, the team was mandated to develop a data analytics solution that would determine the load shortfall in Spain's electrical grid. The load shortfall was illustrated as the difference between renewable & non-renewable energy supply sources. The training dataset included the weather features for 5 key cities in Spain: Madrid, Valencia, Bilbao, Barcelona & Seville.
 
-### Markdown
+The following sections were included in the project development:
+- Exploratory Data Analysis: Gathering insights from the training data.
+- Feature Engineering: Improving the quality of the features in the dataset, & adding features as well.
+- Model selection & Comparison: Developing different trained models & comparing their performance based on key metrics.
+- Presentation of our solution to a panel of reviewers.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Final Project Results
 
-```markdown
-Syntax highlighted code block
+#### Training dataset insights
+Relatively normally distributed data with a reliable matrix (m\*n) for ML development
+#### Feature Engineering
+- A lot of weather attributes showed correlation characteristics
+- Specific features held higher importance in determining the load shortfall, necessitating dropping others.
 
-# Header 1
-## Header 2
-### Header 3
+#### Machine Learning Training
+Multiple models were compared, the fairest performer being the RandomForest Regressor.
 
-- Bulleted
-- List
+#### Project Insights
+Specific weather attributes for specific cities are good determinants on the load shortfall values,  which may be due to these power plants being located near these cities. Thus monitoring these areas, the government of Spain can be adept to react on prospective cases of load shortfalls effectively.
 
-1. Numbered
-2. List
+### Project Links
+- [View Jupyter Notebook][1]
+- [Github Repository][2]
+- [Project Presentation][3]
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/teddywaweru/2110ACDS_ND5/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+[1]: https://nbviewer.org/github/teddywaweru/2110ACDS_ND5/blob/master/2110ACDS_ND5_v0.1.ipynb
+[2]: https://github.com/teddywaweru/2110ACDS_ND5
+[3]: https://docs.google.com/presentation/d/17wmshfvAtTvDpnP8Lkwga7EfSMM9mzByd5SHRZ1ZTP8/edit?usp=sharing
